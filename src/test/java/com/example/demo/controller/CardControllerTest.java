@@ -67,20 +67,20 @@ class CardControllerTest {
         Assertions.assertEquals(type, card.getType());
 
     }
-/*
+
     @Test
     void get() {
         webTestClient.get()
-                .uri("/card/1")
+                .uri("/card/all")
                 .exchange()
                 .expectStatus().isOk()
-                .expectBody(Card.class)
+                .expectBody()
                 .consumeWith(cardEntityExchangeResult -> {
                     var card = cardEntityExchangeResult.getResponseBody();
                     assert card != null;
                 });
     }
- */
+
 
 
 
