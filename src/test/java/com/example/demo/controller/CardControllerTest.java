@@ -69,17 +69,30 @@ class CardControllerTest {
     }
 
     @Test
-    void get() {
-        when(repository.findById(anyInt())).thenReturn(Mono.just(new Card("Tarjeta","2021-07",03,"MasterCard",33)));
+    void list() {
+        var list = Flux.just(
+                new Card("Tarjeta3","2022-09",06,"Visa",555),
+                new Card("Tarjeta4","2022-10",06,"Visa",221 )
+        );
+
+        when(repository.findAll()).thenReturn(list);
         webTestClient.get()
-                .uri("/card/03")
+                .uri("/card/all")
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody()
+                .jsonPath("$[0].title").isEqualTo("Tarjeta3")
+                .jsonPath("$[1].date").isEqualTo("2022-10");
+
+        verify(cardService).listAll();
+        verify(repository).findAll();
+                /*
                 .consumeWith(cardEntityExchangeResult -> {
                     var card = cardEntityExchangeResult.getResponseBody();
                     assert card != null;
+
                 });
+                 */
     }
 
 
