@@ -40,7 +40,7 @@ class CardControllerTest {
     private CardRepository repository;
 
     @ParameterizedTest
-    @CsvSource({"Tarjeta,2021-07,03,MasterCard,0"})
+    @CsvSource({"Tarjeta,2021-07,03,MasterCard,33"})
     /*
     Se debe validar la tarjeta, es decir, tenemos tres tipos de tarjetas
     MasterCard, VISA, PRIME, para el tipo MasterCard se debe iniciar con el codigo 03,
@@ -70,8 +70,9 @@ class CardControllerTest {
 
     @Test
     void get() {
+        when(repository.findById(anyInt())).thenReturn(Mono.just(new Card("Tarjeta","2021-07",03,"MasterCard",33)));
         webTestClient.get()
-                .uri("/card/all")
+                .uri("/card/03")
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody()
@@ -82,6 +83,17 @@ class CardControllerTest {
     }
 
 
+    @Test
+    void update() {
+        when(repository.save(any(Card.class))).thenReturn(Mono.just(new Card("Tarjeta","2021-07",03,"MasterCard",33)));
+        var request = Mono.just(new Card("Tarjeta2","2022-07",06,"Visa",224));
+        webTestClient.put()
+                .uri("/card/up")
+                .body(request, Card.class)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody().isEmpty();
+    }
 
 
 

@@ -27,8 +27,13 @@ public class CardController {
     }
 
     @GetMapping("/all")
-    public Flux<Card> getCards(){
+    public Flux<Card> list(){
         return cardService.listAll();
+    }
+
+    @PutMapping("/up")
+    public Mono<Void> update(@RequestBody Mono<Card> cardMono) {
+        return cardService.insert(cardMono);
     }
 
 }
