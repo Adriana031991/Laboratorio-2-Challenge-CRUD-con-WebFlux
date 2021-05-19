@@ -3,21 +3,21 @@ package com.example.demo.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
 @Document
 public class Card {
 
+    @Id
     private String id;
     private Integer number;
     private String title;
     private String date;
-    private String type;
-    private Integer code;
+    private Type type;
+    private String code;
 
     public Card() {
     }
 
-    public Card(String title, String date, Integer number, String type, Integer code, String id) {
+    public Card(String title, String date, Integer number, Type type, String code, String id) {
         this.title = title;
         this.date = date;
         this.number = number;
@@ -58,19 +58,23 @@ public class Card {
         this.number = number;
     }
 
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Type type) {
         this.type = type;
     }
 
-    public Integer getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(String code) {
         this.code = code;
     }
+
+
+
+
 }

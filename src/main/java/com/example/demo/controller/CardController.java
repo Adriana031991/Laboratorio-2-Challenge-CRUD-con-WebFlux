@@ -15,7 +15,7 @@ public class CardController {
     private CardService cardService;
 
     @PostMapping(value = "/crear")
-    public Mono<Void> post(@RequestBody Mono<Card> cardMono) {
+    public Mono<Card> post(@RequestBody Mono<Card> cardMono) {
         return cardService.insert(cardMono);
     }
 
@@ -29,8 +29,13 @@ public class CardController {
         return cardService.listAll();
     }
 
+    @GetMapping("/{type}/type")
+    public Flux<Card> getType(@PathVariable("type") String type) {
+        return cardService.findByType(type);
+    }
+
     @PutMapping("/up")
-    public Mono<Void> update(@RequestBody Mono<Card> cardMono) {
+    public Mono<Card> update(@RequestBody Mono<Card> cardMono) {
         return cardService.insert(cardMono);
     }
 

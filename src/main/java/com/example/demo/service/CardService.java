@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import static com.example.demo.service.TypeCard.createTypes;
+import static com.example.demo.service.TypeCard.validateTypeCard;
+
 
 @Service
 public class CardService {
@@ -19,25 +22,22 @@ public class CardService {
         return repository.findAll();
     }
 
-    public Mono<Card> get(String id){
+    public Mono<Card> get(String id) {
         return repository.findById(id);
     }
 
-/*
-    public Mono<Card> get(Integer number) {
-        return repository.findById(number);
-    }
-
- */
 
     public Flux<Card> findByType(String type) {
         return repository.findByType(type);
     }
 
-    public Mono<Void> insert(Mono<Card> cardMono){
+
+    public Mono<Card> insert(Mono<Card> cardMono) {
         return cardMono
-                .flatMap(repository::save)
-                .then();
+                .flatMap(card -> {
+                    card.setType(validateTypeCard(createTypes(), card.getCode()));
+                    return repository.save(card);
+                });
     }
 
     public Mono<Void> delete(String id) {

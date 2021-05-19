@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Card;
+import com.example.demo.model.Type;
 import com.example.demo.repository.CardRepository;
 import com.example.demo.service.CardService;
 import org.junit.jupiter.api.Assertions;
@@ -47,7 +48,7 @@ class CardControllerTest {
     para VISA 06 y para PRIME 12,
     si un código de estos no corresponde al tipo entonces debe generar un error de registro
      */
-    void post(String id, String title, String date, Integer number, String type, Integer code) {
+    void post(String id, String title, String date, Integer number, Type type, String code) {
 
         when(repository.save(any(Card.class))).thenReturn(Mono.just(new Card(title,date,number,type,code, id)));
         var request = Mono.just(new Card(title,date,number,type,code, id));
@@ -71,8 +72,8 @@ class CardControllerTest {
     @Test
     void list() {
         var list = Flux.just(
-                new Card("Tarjeta3","2022-09",06,"Visa",555, "1"),
-                new Card("Tarjeta4","2022-10",06,"Visa",221, "2")
+                new Card("Tarjeta3","2022-09",06,Type.MASTERCARD,"555", "1"),
+                new Card("Tarjeta4","2022-10",06,Type.VISA,"221", "2")
         );
 
         when(repository.findAll()).thenReturn(list);
@@ -92,8 +93,8 @@ class CardControllerTest {
 
     @Test
     void update() {
-        when(repository.save(any(Card.class))).thenReturn(Mono.just(new Card("Tarjeta","2021-07",03,"MasterCard",33,"4")));
-        var request = Mono.just(new Card("Tarjeta2","2022-07",06,"Visa",224,"5"));
+            when(repository.save(any(Card.class))).thenReturn(Mono.just(new Card("Tarjeta","2021-07",03,Type.MASTERCARD,"33","4")));
+        var request = Mono.just(new Card("Tarjeta2","2022-07",06,Type.VISA,"224","5"));
         webTestClient.put()
                 .uri("/card/up")
                 .body(request, Card.class)
@@ -111,4 +112,25 @@ class CardControllerTest {
                 .expectStatus().isOk()
                 .expectBody().isEmpty();
     }
+
+    @Test
+    void getType() {
+        var list = Flux.just(
+                new Card("Tarjeta3","2022-09",06,Type.MASTERCARD,"555", "1"),
+                new Card("Tarjeta4","2022-10",06,Type.VISA,"221", "2")
+        );
+
+        when(repository.findByType("VISA")).thenReturn(list);
+        webTestClient.get()
+                .uri("/card/VISA/type")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$[0].title").isEqualTo("Tarjeta3")
+                .jsonPath("$[1].date").isEqualTo("2022-10");
+
+        verify(cardService).findByType("VISA");
+        verify(repository).findByType("VISA");
+    }
+
 }
