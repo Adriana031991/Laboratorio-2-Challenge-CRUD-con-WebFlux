@@ -19,13 +19,23 @@ public class CardService {
         return repository.findAll();
     }
 
-    public Mono<Card> findById(Integer number) {
+    public Mono<Card> get(Integer number) {
         return repository.findById(number);
     }
+/*
+    public Mono<Card> findByType(String type) {
+        return repository.findByType(type);
+    }
+
+ */
 
     public Mono<Void> insert(Mono<Card> cardMono){
         return cardMono
                 .flatMap(repository::save)
                 .then();
+    }
+
+    public Mono<Void> delete(Integer number) {
+        return repository.deleteById(number);
     }
 }

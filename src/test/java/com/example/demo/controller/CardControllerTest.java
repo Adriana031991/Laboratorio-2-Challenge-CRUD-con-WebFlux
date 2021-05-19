@@ -96,5 +96,12 @@ class CardControllerTest {
     }
 
 
-
+    @Test
+    void delete() {
+        webTestClient.delete()
+                .uri("/card/03")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody().isEmpty();
+    }
 }
