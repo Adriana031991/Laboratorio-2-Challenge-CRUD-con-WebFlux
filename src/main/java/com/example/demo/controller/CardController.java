@@ -19,9 +19,9 @@ public class CardController {
         return cardService.insert(cardMono);
     }
 
-    @GetMapping("/{number}")
-    public Mono<Card> getCard(@PathVariable("number")Integer number){
-        return cardService.get(number);
+    @GetMapping("/{id}")
+    public Mono<Card> getCard(@PathVariable("id")String id){
+        return cardService.get(id);
     }
 
     @GetMapping("/all")
@@ -34,9 +34,9 @@ public class CardController {
         return cardService.insert(cardMono);
     }
 
-    @DeleteMapping("/{number}")
-    public Mono<Void> delete(@PathVariable("number") Integer number) {
-        return cardService.delete(number);
+    @DeleteMapping("/{id}")
+    public Mono<Void> delete(@PathVariable("id") String id) {
+        return cardService.delete(id);
     }
 
 }

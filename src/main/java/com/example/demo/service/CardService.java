@@ -19,15 +19,20 @@ public class CardService {
         return repository.findAll();
     }
 
+    public Mono<Card> get(String id){
+        return repository.findById(id);
+    }
+
+/*
     public Mono<Card> get(Integer number) {
         return repository.findById(number);
     }
-/*
-    public Mono<Card> findByType(String type) {
-        return repository.findByType(type);
-    }
 
  */
+
+    public Flux<Card> findByType(String type) {
+        return repository.findByType(type);
+    }
 
     public Mono<Void> insert(Mono<Card> cardMono){
         return cardMono
@@ -35,7 +40,7 @@ public class CardService {
                 .then();
     }
 
-    public Mono<Void> delete(Integer number) {
-        return repository.deleteById(number);
+    public Mono<Void> delete(String id) {
+        return repository.deleteById(id);
     }
 }

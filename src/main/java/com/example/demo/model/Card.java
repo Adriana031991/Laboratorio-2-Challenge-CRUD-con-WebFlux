@@ -7,7 +7,7 @@ import java.util.Date;
 @Document
 public class Card {
 
-    @Id
+    private String id;
     private Integer number;
     private String title;
     private String date;
@@ -17,12 +17,21 @@ public class Card {
     public Card() {
     }
 
-    public Card(String title, String date, Integer number, String type, Integer code) {
+    public Card(String title, String date, Integer number, String type, Integer code, String id) {
         this.title = title;
         this.date = date;
         this.number = number;
         this.type = type;
         this.code = code;
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
