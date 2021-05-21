@@ -42,12 +42,7 @@ class CardControllerTest {
 
     @ParameterizedTest
     @CsvSource({"Tarjeta,2021-07,03,MasterCard,33"})
-    /*
-    Se debe validar la tarjeta, es decir, tenemos tres tipos de tarjetas
-    MasterCard, VISA, PRIME, para el tipo MasterCard se debe iniciar con el codigo 03,
-    para VISA 06 y para PRIME 12,
-    si un código de estos no corresponde al tipo entonces debe generar un error de registro
-     */
+
     void post(String id, String title, String date, Integer number, Type type, String code) {
 
         when(repository.save(any(Card.class))).thenReturn(Mono.just(new Card(title,date,number,type,code, id)));

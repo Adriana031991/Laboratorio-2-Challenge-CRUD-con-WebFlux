@@ -28,13 +28,7 @@ public class CardController {
     public Flux<Card> list(){
         return cardService.listAll();
     }
-    /*
-    @GetMapping("/all/{type}")
-    public Flux<Card> list2(@PathVariable("type")String typoTarjeta){
-        return cardService.listAll().filter(card -> card.getType().equals(typoTarjeta));
-    }
-    esta es la forma en que filtraron los compañeros angelica, cristian y steward
-     */
+
 
     @GetMapping("/{type}/type")
     public Flux<Card> getType(@PathVariable("type") String type) {

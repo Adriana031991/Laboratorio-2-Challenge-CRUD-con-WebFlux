@@ -25,29 +25,4 @@ public class TypeCard {
     }
 
 }
-/*
-//esta forma es la que implemento david uribe
-public static TypeCard generateType(String code){
-        if(verifyode(code)){
-            throw new IllegalArgumentException("el codigo no existe");
-        }
-        return getTypeCard(code);
-}
-private static boolean verifyode(String code) {
-        return code == null || code == "";
-}
-private static TypeCard getTypeCard(String code){
-        switch (code){
-            case "03":
-                return typeCard.MASTERCARD;
-            case "06":
-                return typeCard.VISA;
-                case "12":
-                return typeCard.PRIME;
-            default:
-                throw new IllegalArgumentException("codigo no valido");
-        }
-}
-
- */
 
