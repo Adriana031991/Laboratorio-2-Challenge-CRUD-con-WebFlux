@@ -26,11 +26,9 @@ public class CardService {
         return repository.findById(id);
     }
 
-
     public Flux<Card> findByType(String type) {
         return repository.findByType(type);
     }
-
 
     public Mono<Card> insert(Mono<Card> cardMono) {
         return cardMono
@@ -43,4 +41,7 @@ public class CardService {
     public Mono<Void> delete(String id) {
         return repository.deleteById(id);
     }
+
+
+
 }

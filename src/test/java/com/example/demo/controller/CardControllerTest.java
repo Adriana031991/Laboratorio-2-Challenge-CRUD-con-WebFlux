@@ -90,6 +90,21 @@ class CardControllerTest {
 
     }
 
+    @Test
+    void get() {
+        var list = Mono.just(
+                new Card("Tarjeta3","2022-09",06,Type.MASTERCARD,"555", "1")
+                //new Card("Tarjeta4","2022-10",06,Type.VISA,"221", "2")
+        );
+
+        when(repository.findById("1")).thenReturn(list);
+        webTestClient.delete()
+                .uri("/card/1")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody().isEmpty();
+    }
+
 
     @Test
     void update() {
@@ -106,6 +121,12 @@ class CardControllerTest {
 
     @Test
     void delete() {
+        var list = Mono.just(
+                new Card("Tarjeta3","2022-09",06,Type.MASTERCARD,"555", "1")
+                //new Card("Tarjeta4","2022-10",06,Type.VISA,"221", "2")
+        );
+
+        when(repository.findById("1")).thenReturn(list);
         webTestClient.delete()
                 .uri("/card/03")
                 .exchange()
