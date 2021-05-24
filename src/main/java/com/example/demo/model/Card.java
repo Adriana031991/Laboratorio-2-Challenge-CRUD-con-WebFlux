@@ -14,14 +14,13 @@ public class Card {
     private Type type;
     private String code;
 
-    public Card() {
-    }
 
-    public Card(String title, String date, Integer number, Type type, String code, String id) {
+
+    public Card(String title, String date, Integer number, String code, String id) {
         this.title = title;
         this.date = date;
         this.number = number;
-        this.type = type;
+        //this.type = type;
         this.code = code;
         this.id = id;
     }

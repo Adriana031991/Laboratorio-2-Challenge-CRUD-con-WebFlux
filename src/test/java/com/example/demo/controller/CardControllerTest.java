@@ -41,18 +41,18 @@ class CardControllerTest {
     private CardRepository repository;
 
     @ParameterizedTest
-    @CsvSource({"Tarjeta,2021-07,03,MasterCard,33"})
+    @CsvSource({"44,Tarjeta,2021-07,033,03"})
 
-    void post(String id, String title, String date, Integer number, Type type, String code) {
+    void post(String id, String title, String date, Integer number, String code) {
 
-        when(repository.save(any(Card.class))).thenReturn(Mono.just(new Card(title,date,number,type,code, id)));
-        var request = Mono.just(new Card(title,date,number,type,code, id));
+        when(repository.save(any(Card.class))).thenReturn(Mono.just(new Card(title,date,number,code, id)));
+        var request = Mono.just(new Card(title,date,number,code, id));
         webTestClient.post()
                 .uri("/card/crear")
                 .body(request, Card.class)
                 .exchange()
                 .expectStatus().isOk()
-                .expectBody().isEmpty();
+                .expectBody();
 
         verify(cardService).insert(argumentCaptor.capture());
 
@@ -60,15 +60,15 @@ class CardControllerTest {
 
         Assertions.assertEquals(number, card.getNumber());
         Assertions.assertEquals(title, card.getTitle());
-        Assertions.assertEquals(type, card.getType());
+        //Assertions.assertEquals(type, card.getType());
 
     }
 
     @Test
     void list() {
         var list = Flux.just(
-                new Card("Tarjeta3","2022-09",06,Type.MASTERCARD,"555", "1"),
-                new Card("Tarjeta4","2022-10",06,Type.VISA,"221", "2")
+                new Card("Tarjeta3","2022-09",6666,"06", "1"),
+                new Card("Tarjeta4","2022-10",6666,"06", "2")
         );
 
         when(repository.findAll()).thenReturn(list);
@@ -88,7 +88,7 @@ class CardControllerTest {
     @Test
     void get() {
         var list = Mono.just(
-                new Card("Tarjeta3","2022-09",06,Type.MASTERCARD,"555", "1")
+                new Card("Tarjeta3","2022-09",16,"12", "1")
                 //new Card("Tarjeta4","2022-10",06,Type.VISA,"221", "2")
         );
 
@@ -103,21 +103,21 @@ class CardControllerTest {
 
     @Test
     void update() {
-            when(repository.save(any(Card.class))).thenReturn(Mono.just(new Card("Tarjeta","2021-07",03,Type.MASTERCARD,"33","4")));
-        var request = Mono.just(new Card("Tarjeta2","2022-07",06,Type.VISA,"224","5"));
+            when(repository.save(any(Card.class))).thenReturn(Mono.just(new Card("Tarjeta","2021-07",04343,"12","4")));
+        var request = Mono.just(new Card("Tarjeta2","2022-07",04346,"12","5"));
         webTestClient.put()
                 .uri("/card/up")
                 .body(request, Card.class)
                 .exchange()
                 .expectStatus().isOk()
-                .expectBody().isEmpty();
+                .expectBody();
     }
 
 
     @Test
     void delete() {
         var list = Mono.just(
-                new Card("Tarjeta3","2022-09",06,Type.MASTERCARD,"555", "1")
+                new Card("Tarjeta3","2022-09",04456,"06", "1")
                 //new Card("Tarjeta4","2022-10",06,Type.VISA,"221", "2")
         );
 
@@ -132,8 +132,8 @@ class CardControllerTest {
     @Test
     void getType() {
         var list = Flux.just(
-                new Card("Tarjeta3","2022-09",06,Type.MASTERCARD,"555", "1"),
-                new Card("Tarjeta4","2022-10",06,Type.VISA,"221", "2")
+                new Card("Tarjeta3","2022-09",46576889,"03", "1"),
+                new Card("Tarjeta4","2022-10",46576889,"03", "2")
         );
 
         when(repository.findByType("VISA")).thenReturn(list);
